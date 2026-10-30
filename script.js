@@ -35,6 +35,7 @@ heart.addEventListener("click", () => {
     loveName.classList.remove("is-visible");
     void loveName.offsetWidth;
     loveName.classList.add("is-visible");
+    createRisingHearts();
 
     nameHideTimer = window.setTimeout(() => {
         loveName.classList.remove("is-visible");
@@ -45,6 +46,30 @@ heart.addEventListener("click", () => {
         }, 400);
     }, 2200);
 });
+
+function createRisingHearts() {
+    const heartBox = heart.getBoundingClientRect();
+    const sceneBox = scene.getBoundingClientRect();
+    const colors = ["#ff51cf", "#ff8be0", "#4bd5ff", "#fff4ff"];
+
+    for (let index = 0; index < 7; index++) {
+        const floatingHeart = document.createElement("span");
+        const duration = 1.5 + Math.random() * 0.8;
+
+        floatingHeart.className = "rising-heart";
+        floatingHeart.setAttribute("aria-hidden", "true");
+        floatingHeart.textContent = index % 3 === 0 ? "💖" : "♥";
+        floatingHeart.style.left = `${heartBox.left - sceneBox.left + heartBox.width / 2 + (Math.random() * 70 - 35)}px`;
+        floatingHeart.style.top = `${heartBox.top - sceneBox.top + heartBox.height / 2}px`;
+        floatingHeart.style.setProperty("--heart-color", colors[index % colors.length]);
+        floatingHeart.style.setProperty("--heart-drift", `${Math.random() * 100 - 50}px`);
+        floatingHeart.style.setProperty("--heart-duration", `${duration}s`);
+        floatingHeart.style.animationDelay = `${index * 70}ms`;
+        particles.appendChild(floatingHeart);
+
+        window.setTimeout(() => floatingHeart.remove(), duration * 1000 + index * 70);
+    }
+}
 
 scene.addEventListener("pointerdown", (event) => {
     const burst = document.createElement("span");
