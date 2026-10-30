@@ -3,6 +3,9 @@ const particles = document.querySelector(".particles");
 const scene = document.querySelector(".love-scene");
 const heart = document.querySelector(".neon-heart");
 const loveName = document.querySelector(".love-name");
+const blueTrigger = document.querySelector(".blue-trigger");
+const loveMessage = document.querySelector(".love-message");
+const closeMessage = document.querySelector(".message-close");
 const sparkleCharacters = ["✦", "·", "✧", "♡"];
 let nameHideTimer;
 let nameResetTimer;
@@ -26,6 +29,14 @@ function createSparkle() {
 
 createSparkle();
 window.setInterval(createSparkle, 450);
+
+blueTrigger.addEventListener("click", () => {
+    loveMessage.showModal();
+});
+
+closeMessage.addEventListener("click", () => {
+    loveMessage.close();
+});
 
 heart.addEventListener("click", () => {
     window.clearTimeout(nameHideTimer);
@@ -72,6 +83,10 @@ function createRisingHearts() {
 }
 
 scene.addEventListener("pointerdown", (event) => {
+    if (!event.target.closest(".neon-heart")) {
+        return;
+    }
+
     const burst = document.createElement("span");
     const burstCharacters = ["♥", "✦", "✧", "♡", "♥", "✦", "·", "♡"];
     const colors = ["#ff51cf", "#4bd5ff", "#fff4ff"];
